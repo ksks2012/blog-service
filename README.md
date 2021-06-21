@@ -15,8 +15,19 @@
 
 ### DB version
 
-## Go generate
+#### Add Table in Schema
+
+edit sql command in md file
+
+add table function in UpgradeSchema
+
+#### Go generate
 
 ```sh
 go generate github.com/blog-service/internal/dao/mysql
+```
+## Binaries
+
+```sh
+go build ./cmd/blog-service/
 ```
