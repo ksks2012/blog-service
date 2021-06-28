@@ -2,9 +2,12 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
+	"time"
 
+	"github.com/blog-service/internal/routers"
 	"golang.org/x/sys/unix"
 )
 
@@ -22,9 +25,14 @@ func main() {
 		return
 	}
 
-	// r := gin.Default()
-	// r.GET("/ping", func(c *gin.Context) {
-	// 	c.JSON(200, gin.H{"message": "ping"})
-	// })
-	// r.Run(":18080")
+	router := routers.NewRouter()
+	s := &http.Server{
+		Addr:           ":18080",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	s.ListenAndServe()
 }

@@ -31,3 +31,7 @@ go generate github.com/blog-service/internal/dao/mysql
 ```sh
 go build ./cmd/blog-service/
 ```
+
+## Run
+
+./blog-service -conf ./etc/blog-service-mysql.yaml

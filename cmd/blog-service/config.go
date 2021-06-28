@@ -3,9 +3,8 @@ package main
 import (
 	"io/ioutil"
 
+	storageconfig "git1.midev/trend-analysis-bridged/storages/config"
 	yaml "gopkg.in/yaml.v3"
-
-	storageconfig "github.com/blog-service/internal/dao/config"
 )
 
 const (
