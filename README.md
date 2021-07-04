@@ -2,7 +2,7 @@
 
 ## structure
 
-- configs: setting file
+- etc: setting file
 - docs: document
 - global: global variables
 - internal: internal module
