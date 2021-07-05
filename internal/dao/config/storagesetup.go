@@ -3,9 +3,8 @@ package config
 import (
 	"errors"
 
-	yaml "gopkg.in/yaml.v3"
-
 	bsinterfaces "github.com/blog-service/interfaces"
+	"github.com/blog-service/pkg/setting"
 )
 
 // StorageSetup contains storage type and storage instance
@@ -14,26 +13,19 @@ type StorageSetup struct {
 	Instance bsinterfaces.StorageEngine
 }
 
-// UnmarshalYAML implements yaml.Unmarshaler interface
-func (s *StorageSetup) UnmarshalYAML(nodeValue *yaml.Node) (err error) {
-	var aux struct {
-		StorageType string `yaml:"type"`
-	}
-	if err = nodeValue.Decode(&aux); nil != err {
-		return
-	}
-	switch aux.StorageType {
+func (s *StorageSetup) NewDBEngine(databaseSetting *setting.DatabaseSettingS) (err error) {
+	switch databaseSetting.DBType {
 	case "pxc":
-		s.Instance, err = setupMySQLRoundRobinStorageEngine(nodeValue)
+		s.Instance, err = setupMySQLRoundRobinStorageEngine(databaseSetting)
 	case "mysql", "mariadb":
-		s.Instance, err = setupMySQLStorageEngine(nodeValue)
+		s.Instance, err = setupMySQLStorageEngine(databaseSetting)
 	default:
-		err = errors.New("unknown storage engine type: " + aux.StorageType)
+		err = errors.New("unknown storage engine type: " + databaseSetting.DBType)
 	}
 	if nil != err {
 		s.Instance = nil
 	} else {
-		s.Type = aux.StorageType
+		s.Type = databaseSetting.DBType
 	}
 	return err
 }

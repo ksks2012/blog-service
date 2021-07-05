@@ -24,6 +24,7 @@ type DatabaseSettingS struct {
 	UserName     string
 	Password     string
 	Host         []string
+	SocketPath   string
 	DBName       string
 	TablePrefix  string
 	Charset      string

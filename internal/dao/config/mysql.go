@@ -1,36 +1,18 @@
 package config
 
 import (
-	yaml "gopkg.in/yaml.v3"
-
 	bsinterfaces "github.com/blog-service/interfaces"
 	mysqlstorage "github.com/blog-service/internal/dao/mysql"
+	"github.com/blog-service/pkg/setting"
 )
 
-func setupMySQLStorageEngine(nodeValue *yaml.Node) (storage bsinterfaces.StorageEngine, err error) {
-	var aux struct {
-		UserName       string `yaml:"username"`
-		Password       string `yaml:"password"`
-		NetworkAddress string `yaml:"address"`
-		SocketPath     string `yaml:"socket"`
-		DatabaseName   string `yaml:"database"`
-	}
-	if err = nodeValue.Decode(&aux); nil != err {
+func setupMySQLStorageEngine(databaseSetting *setting.DatabaseSettingS) (storage bsinterfaces.StorageEngine, err error) {
+	if len(databaseSetting.Host) == 0 {
 		return
 	}
-	return mysqlstorage.NewMySQLStorageEngine(aux.UserName, aux.Password, aux.NetworkAddress, aux.SocketPath, aux.DatabaseName)
+	return mysqlstorage.NewMySQLStorageEngine(databaseSetting.UserName, databaseSetting.Password, databaseSetting.Host[0], databaseSetting.SocketPath, databaseSetting.DBName)
 }
 
-func setupMySQLRoundRobinStorageEngine(nodeValue *yaml.Node) (storage bsinterfaces.StorageEngine, err error) {
-	var aux struct {
-		UserName         string   `yaml:"username"`
-		Password         string   `yaml:"password"`
-		NetworkAddresses []string `yaml:"addresses"`
-		SocketPath       string   `yaml:"socket"`
-		DatabaseName     string   `yaml:"database"`
-	}
-	if err = nodeValue.Decode(&aux); nil != err {
-		return
-	}
-	return mysqlstorage.NewMySQLRoundRobinStorageEngine(aux.UserName, aux.Password, aux.NetworkAddresses, aux.SocketPath, aux.DatabaseName)
+func setupMySQLRoundRobinStorageEngine(databaseSetting *setting.DatabaseSettingS) (storage bsinterfaces.StorageEngine, err error) {
+	return mysqlstorage.NewMySQLRoundRobinStorageEngine(databaseSetting.UserName, databaseSetting.Password, databaseSetting.Host, databaseSetting.SocketPath, databaseSetting.DBName)
 }

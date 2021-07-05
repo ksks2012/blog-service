@@ -9,13 +9,14 @@ import (
 	"time"
 
 	"github.com/blog-service/global"
+	dbconfig "github.com/blog-service/internal/dao/config"
 	"github.com/blog-service/internal/routers"
 	"github.com/blog-service/pkg/setting"
 	"golang.org/x/sys/unix"
 )
 
 var (
-	config string
+	cfg string
 )
 
 func init() {
@@ -24,21 +25,17 @@ func init() {
 		log.Fatalf("init.setupSetting err: %v", err)
 	}
 
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v", err)
+	}
+
 }
 
 func main() {
-	// cfg, err := parseCommandParam()
-	// if nil != err {
-	// 	log.Fatalf("invalid command option for blog-service: %v", err)
-	// 	return
-	// }
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, os.Interrupt, unix.SIGTERM)
 	log.Printf("INFO: starting Blog service")
-	// if err = cfg.StorageSetup.Instance.Open(); nil != err {
-	// 	log.Fatalf("open storage connection failed: %v", err)
-	// 	return
-	// }
 
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -53,7 +50,7 @@ func main() {
 }
 
 func setupSetting() error {
-	s, err := setting.NewSetting(strings.Split(config, ",")...)
+	s, err := setting.NewSetting(strings.Split(cfg, ",")...)
 	if err != nil {
 		return err
 	}
@@ -74,4 +71,19 @@ func setupSetting() error {
 	global.ServerSetting.WriteTimeout *= time.Second
 
 	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	var storageSetup dbconfig.StorageSetup
+	if err = storageSetup.NewDBEngine(global.DatabaseSetting); nil != err {
+		log.Fatalf("open storage connection failed: %v", err)
+		return err
+	}
+	if err = storageSetup.Instance.Open(); nil != err {
+		log.Fatalf("open storage connection failed: %v", err)
+		return err
+	}
+
+	return err
 }
