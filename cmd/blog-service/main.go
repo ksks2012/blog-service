@@ -11,8 +11,10 @@ import (
 	"github.com/blog-service/global"
 	dbconfig "github.com/blog-service/internal/dao/config"
 	"github.com/blog-service/internal/routers"
+	"github.com/blog-service/pkg/logger"
 	"github.com/blog-service/pkg/setting"
 	"golang.org/x/sys/unix"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 var (
@@ -30,12 +32,18 @@ func init() {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
+	}
+
 }
 
 func main() {
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, os.Interrupt, unix.SIGTERM)
-	log.Printf("INFO: starting Blog service")
+	global.Logger.Infof("%s: %s", "main", "blog-service")
+	// log.Printf("INFO: starting Blog service")
 
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -86,4 +94,16 @@ func setupDBEngine() error {
 	}
 
 	return err
+}
+
+func setupLogger() error {
+	fileName := global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  fileName,
+		MaxSize:   500,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
+	return nil
 }

@@ -33,6 +33,7 @@ Icon
 *.dylib
 *.test
 *.out
+*.log
 .glide/
 
 etc/blog-service-local.yaml
