@@ -1,7 +1,9 @@
 package v1
 
 import (
+	"github.com/blog-service/pkg/app"
 	"github.com/gin-gonic/gin"
+	"github.com/go-programming-tour-book/blog-service/pkg/errcode"
 )
 
 type Article struct{}
@@ -11,21 +13,26 @@ func NewArticle() Article {
 }
 
 func (a Article) Get(c *gin.Context) {
-
+	app.NewResponse(c).ToErrorResponse(errcode.ServerError)
+	return
 }
 
 func (a Article) List(c *gin.Context) {
-
+	app.NewResponse(c).ToErrorResponse(errcode.ServerError)
+	return
 }
 
 func (a Article) Create(c *gin.Context) {
-
+	app.NewResponse(c).ToErrorResponse(errcode.ServerError)
+	return
 }
 
 func (a Article) Update(c *gin.Context) {
-
+	app.NewResponse(c).ToErrorResponse(errcode.ServerError)
+	return
 }
 
 func (a Article) Delete(c *gin.Context) {
-
+	app.NewResponse(c).ToErrorResponse(errcode.ServerError)
+	return
 }
