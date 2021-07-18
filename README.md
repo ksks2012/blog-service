@@ -26,6 +26,13 @@ add table function in UpgradeSchema
 ```sh
 go generate github.com/blog-service/internal/dao/mysql
 ```
+
+#### swaggo init
+
+```sh
+swag init -g cmd/blog-service/main.go
+```
+
 ## Binaries
 
 ```sh

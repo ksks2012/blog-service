@@ -3,8 +3,8 @@ package app
 import (
 	"net/http"
 
+	"github.com/blog-service/pkg/errcode"
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/pkg/errcode"
 )
 
 type Response struct {
@@ -12,11 +12,11 @@ type Response struct {
 }
 
 type Pager struct {
-	// 页码
+	// 頁碼
 	Page int `json:"page"`
-	// 每页数量
+	// 每頁數量
 	PageSize int `json:"page_size"`
-	// 总行数
+	// 總行數
 	TotalRows int `json:"total_rows"`
 }
 

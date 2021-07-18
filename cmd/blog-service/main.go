@@ -39,6 +39,10 @@ func init() {
 
 }
 
+// @title 部落格系統
+// @version 1.0
+// @description Go 語言編程之旅：一起用 Go 做項目
+// @termsOfService https://github.com/go-programming-tour-book
 func main() {
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, os.Interrupt, unix.SIGTERM)
