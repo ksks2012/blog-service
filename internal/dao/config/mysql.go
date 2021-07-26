@@ -2,7 +2,7 @@ package config
 
 import (
 	bsinterfaces "github.com/blog-service/interfaces"
-	mysqlstorage "github.com/blog-service/internal/dao/mysql"
+	mysqlstorage "github.com/blog-service/internal/dao/dbversion/mysql"
 	"github.com/blog-service/pkg/setting"
 )
 

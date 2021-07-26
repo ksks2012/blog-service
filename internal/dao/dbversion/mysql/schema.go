@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	bsstorages "github.com/blog-service/internal/dao"
+	bsstorages "github.com/blog-service/internal/dao/dbversion"
 )
 
 func (m *schemaManager) UpgradeSchema(currentRevs *schemaRevision) (schemaChanged bool, err error) {
