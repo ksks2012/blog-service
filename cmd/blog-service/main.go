@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/blog-service/global"
-	dbconfig "github.com/blog-service/internal/dao/config"
+	"github.com/blog-service/internal/model"
 	"github.com/blog-service/internal/routers"
 	"github.com/blog-service/pkg/logger"
 	"github.com/blog-service/pkg/setting"
@@ -87,17 +87,12 @@ func setupSetting() error {
 
 func setupDBEngine() error {
 	var err error
-	var storageSetup dbconfig.StorageSetup
-	if err = storageSetup.NewDBEngine(global.DatabaseSetting); nil != err {
-		log.Fatalf("open storage connection failed: %v", err)
-		return err
-	}
-	if err = storageSetup.Instance.Open(); nil != err {
-		log.Fatalf("open storage connection failed: %v", err)
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func setupLogger() error {

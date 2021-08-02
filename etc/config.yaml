@@ -13,8 +13,7 @@ Database:
   DBType: mysql
   UserName: hong
   Password: xxx
-  Host:
-    - 127.0.0.1:3306
+  Host: 127.0.0.1
   DBName: BlogService
   TablePrefix: blog_
   Charset: utf8
