@@ -46,4 +46,4 @@ go build ./cmd/blog-service/
 
 ## Run
 
-./blog-service -conf ./etc/blog-service-mysql.yaml
+./blog-service
