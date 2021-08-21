@@ -34,6 +34,7 @@ Icon
 *.test
 *.out
 *.log
+*.png
 .glide/
 
 etc/blog-service-local.yaml

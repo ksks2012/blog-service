@@ -3,6 +3,7 @@ package routers
 import (
 	_ "github.com/blog-service/docs"
 	"github.com/blog-service/internal/middleware"
+	"github.com/blog-service/internal/routers/api"
 	v1 "github.com/blog-service/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,7 +19,8 @@ func NewRouter() *gin.Engine {
 
 	article_api := v1.NewArticle()
 	tag_api := v1.NewTag()
-
+	upload := api.NewUpload()
+	r.POST("/upload/file", upload.UploadFile)
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use() //middleware.JWT()
 	{
