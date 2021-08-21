@@ -1,6 +1,10 @@
 package routers
 
 import (
+	"net/http"
+
+	"github.com/blog-service/global"
+
 	_ "github.com/blog-service/docs"
 	"github.com/blog-service/internal/middleware"
 	"github.com/blog-service/internal/routers/api"
@@ -21,6 +25,7 @@ func NewRouter() *gin.Engine {
 	tag_api := v1.NewTag()
 	upload := api.NewUpload()
 	r.POST("/upload/file", upload.UploadFile)
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use() //middleware.JWT()
 	{

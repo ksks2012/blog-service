@@ -52,4 +52,4 @@ go build ./cmd/blog-service/
 ## api test command
 
 - test file upload
-	> curl -X POST http://127.0.0.1:18080/upload/file -F file=test.png -F type=1
+	> curl -X POST http://127.0.0.1:18080/upload/file -F file=@"./test.png" -F type=1
