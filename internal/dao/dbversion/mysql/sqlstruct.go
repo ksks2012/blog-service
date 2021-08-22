@@ -52,23 +52,39 @@ const sqlCreateBlogArticle = "CREATE TABLE `blog_article` (" +
 	"PRIMARY KEY (`id`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章管理'"
 
+const sqlCreateBlogAuth = "CREATE TABLE `blog_auth` (" +
+	"`id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
+	"`app_key` varchar(20) DEFAULT '' COMMENT 'Key'," +
+	"`app_secret` varchar(50) DEFAULT '' COMMENT 'Secret'," +
+	"`created_on` int(10) unsigned DEFAULT '0' COMMENT '新建時間'," +
+	"`created_by` varchar(100) DEFAULT '' COMMENT '創建人'," +
+	"`modified_on` int(10) unsigned DEFAULT '0' COMMENT '修改時間'," +
+	"`modified_by` varchar(100) DEFAULT '' COMMENT '修改人'," +
+	"`deleted_on` int(10) unsigned DEFAULT '0' COMMENT '刪除時間'," +
+	"`is_del` tinyint(3) unsigned DEFAULT '0' COMMENT '是否刪除 0為未刪除、1為已刪除'," +
+	"PRIMARY KEY (`id`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='認證管理'"
+
 // ** SQL schema external filter
 
 const metaKeyBlogServiceMetaSchemaRev = "blog-service-meta.schema"
 const metaKeyBlogTagSchemaRev = "blog-tag.schema"
 const metaKeyBlogArticleTagSchemaRev = "blog-article-tag.schema"
 const metaKeyBlogArticleSchemaRev = "blog-article.schema"
+const metaKeyBlogAuthSchemaRev = "blog-auth.schema"
 
-const currentBlogServiceMetaSchemaRev = 1
+const currentBlogServiceMetaSchemaRev = 2
 const currentBlogTagSchemaRev = 1
 const currentBlogArticleTagSchemaRev = 1
 const currentBlogArticleSchemaRev = 1
+const currentBlogAuthSchemaRev = 1
 
 type schemaRevision struct {
 	// TODO: unknown translation mode 0 for symbol [BlogServiceMeta]
 	BlogTag        int32
 	BlogArticleTag int32
 	BlogArticle    int32
+	BlogAuth       int32
 }
 
 func (rev *schemaRevision) IsUpToDate() bool {
@@ -79,6 +95,9 @@ func (rev *schemaRevision) IsUpToDate() bool {
 		return false
 	}
 	if currentBlogArticleSchemaRev != rev.BlogArticle {
+		return false
+	}
+	if currentBlogAuthSchemaRev != rev.BlogAuth {
 		return false
 	}
 	return true
@@ -104,6 +123,9 @@ func (m *schemaManager) FetchSchemaRevision() (schemaRev *schemaRevision, err er
 		return nil, err
 	}
 	if schemaRev.BlogArticle, _, err = metaStoreInst.FetchRevision(metaKeyBlogArticleSchemaRev); nil != err {
+		return nil, err
+	}
+	if schemaRev.BlogAuth, _, err = metaStoreInst.FetchRevision(metaKeyBlogAuthSchemaRev); nil != err {
 		return nil, err
 	}
 	return schemaRev, nil
@@ -169,4 +191,18 @@ func (m *schemaManager) UpgradeSchemaBlogArticle(currentRev int32) (schemaChange
 	return
 }
 
-// ** Generated code for 4 table entries
+func (m *schemaManager) UpgradeSchemaBlogAuth(currentRev int32) (schemaChanged bool, err error) {
+	switch currentRev {
+	case currentBlogAuthSchemaRev:
+		return false, nil
+	case 0:
+		if err = m.execBaseSchemaModification(sqlCreateBlogAuth, metaKeyBlogAuthSchemaRev, currentBlogAuthSchemaRev); nil == err {
+			return true, nil
+		}
+	default:
+		err = fmt.Errorf("unknown blog-auth schema revision: %d", currentRev)
+	}
+	return
+}
+
+// ** Generated code for 5 table entries

@@ -29,7 +29,7 @@ add table function in UpgradeSchema
 #### Go generate
 
 ```sh
-go generate github.com/blog-service/internal/dao/mysql
+go generate github.com/blog-service/internal/dao/dbversion/mysql
 ```
 
 #### swaggo init

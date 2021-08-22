@@ -12,5 +12,6 @@ func (m *schemaManager) UpgradeSchema(currentRevs *schemaRevision) (schemaChange
 	status.RunUpgrade("blog-tag", m.UpgradeSchemaBlogTag, currentRevs.BlogTag)
 	status.RunUpgrade("blog-article-tag", m.UpgradeSchemaBlogArticleTag, currentRevs.BlogArticleTag)
 	status.RunUpgrade("blog-article", m.UpgradeSchemaBlogArticle, currentRevs.BlogArticle)
+	status.RunUpgrade("blog-auth", m.UpgradeSchemaBlogAuth, currentRevs.BlogAuth)
 	return status.Changed, status.LastError
 }
