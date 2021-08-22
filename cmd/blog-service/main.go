@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/blog-service/global"
+	"github.com/blog-service/internal/dao/config"
 	"github.com/blog-service/internal/model"
 	"github.com/blog-service/internal/routers"
 	"github.com/blog-service/pkg/logger"
@@ -30,6 +31,11 @@ func init() {
 	err = setupDBEngine()
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
+	}
+
+	err = updateDB()
+	if err != nil {
+		log.Fatalf("init.updateDB err: %v", err)
 	}
 
 	err = setupLogger()
@@ -81,6 +87,21 @@ func setupSetting() error {
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
+
+	return nil
+}
+
+func updateDB() error {
+	var err error
+	updateDBSetup := &config.StorageSetup{}
+	err = updateDBSetup.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
+	if err = updateDBSetup.Instance.Open(); nil != err {
+		log.Fatalf("open storage connection failed: %v", err)
+		return err
+	}
 
 	return nil
 }
