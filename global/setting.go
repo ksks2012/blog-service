@@ -8,6 +8,7 @@ import (
 var (
 	ServerSetting   *setting.ServerSettingS
 	AppSetting      *setting.AppSettingS
+	EmailSetting    *setting.EmailSettingS
 	DatabaseSetting *setting.DatabaseSettingS
 	JWTSetting      *setting.JWTSettingS
 	Logger          *logger.Logger
