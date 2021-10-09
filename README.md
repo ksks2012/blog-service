@@ -53,3 +53,21 @@ go build ./cmd/blog-service/
 
 - test file upload
 	> curl -X POST http://127.0.0.1:18080/upload/file -F file=@"./test.png" -F type=1
+
+- test create tags
+
+	> curl -X POST http://127.0.0.1:18080/api/v1/tags -F 'nane=RUST' -F 'create_by=hong'
+
+- test get tags
+
+	> curl -X GET http://127.0.0.1:18080/api/v1/tags?page=1&page_size=2
+
+- test post auth
+
+	> curl -X POST http://127.0.0.1:18080/auth -H 'app_key:eddycjy' -H 'app_secret: hong'
+
+## auth
+
+### test data
+
+> INSERT INTO `BlogService`.`blog_auth` (`id`, `app_key`, `app_secret`, `created_on`, `created_by`, `modified_on`, `modified_by`, `deleted_on`, `is_del`) VALUES ('1', 'hong', 'blog-service', '0', 'hong', '0', '', '0', '0');
