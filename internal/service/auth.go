@@ -2,8 +2,6 @@ package service
 
 import (
 	"errors"
-
-	"github.com/blog-service/global"
 )
 
 type AuthRequest struct {

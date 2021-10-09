@@ -28,7 +28,7 @@ func NewRouter() *gin.Engine {
 	r.POST("/upload/file", upload.UploadFile)
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use() //middleware.JWT()
+	apiv1.Use(middleware.JWT()) //middleware.JWT()
 	{
 		// 創建標籤
 		apiv1.POST("/tags", tag_api.Create)

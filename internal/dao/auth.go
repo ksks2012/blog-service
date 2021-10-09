@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"github.com/blog-service/global"
 	"github.com/blog-service/internal/model"
 )
 
