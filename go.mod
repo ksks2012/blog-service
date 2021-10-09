@@ -67,6 +67,7 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	golang.org/x/tools v0.1.5 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/resty.v1 v1.12.0 // indirect
