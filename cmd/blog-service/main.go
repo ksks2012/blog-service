@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/blog-service/pkg/tracer"
+
 	"github.com/blog-service/global"
 	"github.com/blog-service/internal/dao/config"
 	"github.com/blog-service/internal/model"
@@ -43,12 +45,17 @@ func init() {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
 
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer err: %v", err)
+	}
+
 }
 
 // @title 部落格系統
 // @version 1.0
 // @description Go 語言編程之旅：一起用 Go 做項目
-// @termsOfService https://github.com/go-programming-tour-book
+// @termsOfService https://github.com
 func main() {
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, os.Interrupt, unix.SIGTERM)
@@ -134,5 +141,14 @@ func setupLogger() error {
 		LocalTime: true,
 	}, "", log.LstdFlags).WithCaller(2)
 
+	return nil
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer("blog-service", "127.0.0.1:6831")
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }
