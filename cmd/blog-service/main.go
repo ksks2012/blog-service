@@ -16,6 +16,7 @@ import (
 	"github.com/blog-service/internal/routers"
 	"github.com/blog-service/pkg/logger"
 	"github.com/blog-service/pkg/setting"
+	"github.com/gin-gonic/gin"
 	"golang.org/x/sys/unix"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
@@ -57,11 +58,9 @@ func init() {
 // @description Go 語言編程之旅：一起用 Go 做項目
 // @termsOfService https://github.com
 func main() {
+	gin.SetMode(global.ServerSetting.RunMode)
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, os.Interrupt, unix.SIGTERM)
-	global.Logger.Infof("%s: %s", "main", "blog-service")
-	// log.Printf("INFO: starting Blog service")
-
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
@@ -100,6 +99,7 @@ func setupSetting() error {
 		return err
 	}
 
+	global.AppSetting.DefaultContextTimeout *= time.Second
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
 	global.JWTSetting.Expire *= time.Second

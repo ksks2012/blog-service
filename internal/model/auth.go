@@ -1,7 +1,6 @@
 package model
 
 import (
-	"github.com/blog-service/global"
 	"github.com/jinzhu/gorm"
 )
 
@@ -22,6 +21,5 @@ func (a Auth) Get(db *gorm.DB) (Auth, error) {
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return auth, err
 	}
-	global.Logger.Infof("model.Get info: %v", auth)
 	return auth, nil
 }
