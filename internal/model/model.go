@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	otgorm "github.com/eddycjy/opentracing-gorm"
+
 	"github.com/blog-service/global"
 	"github.com/blog-service/pkg/setting"
 	"github.com/jinzhu/gorm"
@@ -38,9 +40,12 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		db.LogMode(true)
 	}
 	db.SingularTable(true)
+	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
+	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
+	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
 	db.DB().SetMaxIdleConns(databaseSetting.MaxIdleConns)
 	db.DB().SetMaxOpenConns(databaseSetting.MaxOpenConns)
-
+	otgorm.AddGormCallbacks(db)
 	return db, nil
 }
 

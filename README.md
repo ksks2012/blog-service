@@ -60,11 +60,15 @@ go build ./cmd/blog-service/
 
 - test get tags
 
-	> curl -X GET http://127.0.0.1:18080/api/v1/tags?page=1&page_size=2
+	> curl -X GET 'http://127.0.0.1:18080/api/v1/tags?page=1&page_size=2'
 
 - test post auth
 
-	> curl -X POST http://127.0.0.1:18080/auth -H 'app_key:eddycjy' -H 'app_secret: hong'
+	> curl -X POST http://127.0.0.1:18080/auth -F 'app_key=hong' -F 'app_secret=blog-service'
+
+- add token
+
+	> -H token:<token>
 
 ## auth
 
@@ -96,3 +100,5 @@ docker run -d --name jaeger \
 
 go get -u github.com/opentracing/opentracing-go@v1.1.0
 go get -u github.com/uber/jaeger-client-go@v2.22.1
+
+go get -u github.com/eddycjy/opentracing-gorm

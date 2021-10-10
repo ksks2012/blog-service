@@ -57,7 +57,6 @@ func (t Tag) List(c *gin.Context) {
 	}
 
 	response.ToResponseList(tags, totalRows)
-	// response.ToResponse(gin.H{})
 	return
 }
 

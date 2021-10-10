@@ -6,13 +6,14 @@ import (
 
 	"github.com/blog-service/global"
 
+	v1 "github.com/blog-service/internal/routers/api/v1"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	_ "github.com/blog-service/docs"
 	"github.com/blog-service/internal/middleware"
 	"github.com/blog-service/internal/routers/api"
-	v1 "github.com/blog-service/internal/routers/api/v1"
 	"github.com/blog-service/pkg/limiter"
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
