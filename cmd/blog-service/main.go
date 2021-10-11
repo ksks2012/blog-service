@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -22,11 +23,17 @@ import (
 )
 
 var (
-	cfg string
+	port    string
+	runMode string
+	cfg     string
 )
 
 func init() {
-	err := setupSetting()
+	err := setupFlag()
+	if err != nil {
+		log.Fatalf("init.setupFlag err: %v", err)
+	}
+	err = setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
 	}
@@ -73,6 +80,15 @@ func main() {
 	s.ListenAndServe()
 }
 
+func setupFlag() error {
+	flag.StringVar(&port, "port", "", "啟動通訊埠")
+	flag.StringVar(&runMode, "mode", "", "啟動模式")
+	flag.StringVar(&cfg, "config", "configs/", "指定要使用的設定檔路徑")
+	flag.Parse()
+
+	return nil
+}
+
 func setupSetting() error {
 	s, err := setting.NewSetting(strings.Split(cfg, ",")...)
 	if err != nil {
@@ -97,6 +113,13 @@ func setupSetting() error {
 	err = s.ReadSection("Email", &global.EmailSetting)
 	if err != nil {
 		return err
+	}
+
+	if port != "" {
+		global.ServerSetting.HttpPort = port
+	}
+	if runMode != "" {
+		global.ServerSetting.RunMode = runMode
 	}
 
 	global.AppSetting.DefaultContextTimeout *= time.Second
