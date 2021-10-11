@@ -102,3 +102,9 @@ go get -u github.com/opentracing/opentracing-go@v1.1.0
 go get -u github.com/uber/jaeger-client-go@v2.22.1
 
 go get -u github.com/eddycjy/opentracing-gorm
+
+# hotfix
+
+## pkg
+
+go get -u github.com/fsnotify/fsnotify
