@@ -1,7 +1,7 @@
 storage:
   type: "pxc"
-  username: "hong"
-  password: "cwb+123"
+  username: "xxxx"
+  password: "xxxx"
   addresses:
     - "127.0.0.1:3306"
   database: "BlogService"

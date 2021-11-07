@@ -83,7 +83,7 @@ func main() {
 func setupFlag() error {
 	flag.StringVar(&port, "port", "", "啟動通訊埠")
 	flag.StringVar(&runMode, "mode", "", "啟動模式")
-	flag.StringVar(&cfg, "config", "configs/", "指定要使用的設定檔路徑")
+	flag.StringVar(&cfg, "config", "etc/", "指定要使用的設定檔路徑")
 	flag.Parse()
 
 	return nil

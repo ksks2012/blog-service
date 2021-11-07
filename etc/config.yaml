@@ -19,8 +19,8 @@ App:
     - .png
 Database:
   DBType: mysql
-  UserName: hong
-  Password: cwb+123
+  UserName: xxxx
+  Password: xxxxx
   Host: 127.0.0.1
   DBName: BlogService
   TablePrefix: blog_
